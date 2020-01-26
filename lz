@@ -1,0 +1,14 @@
+#!/bin/bash
+
+clean=X-scripts/make.sh
+dirty=X-scripts/dirty.sh
+quit="echo Bye && exit"
+
+echo "What build to run?"
+select ynq in "clean" "dirty" "quit"; do
+    case $ynq in
+	clean ) time $clean ;break;;
+	dirty ) time $dirty ;break;;
+	quit ) time echo "Nothing done. Good Bye!";exit;;
+esac;
+done

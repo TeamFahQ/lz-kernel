@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Colorizing
+bldred=${txtbld}$(tput setaf 1) #  red
+bldblu=${txtbld}$(tput setaf 4) #  blue
+txtbld=$(tput bold)             # Bold
+txtrst=$(tput sgr0)             # Reset
+
+base=~/Android/kernels/linux
+
+pass=$(zenity --password --title="sudo password prompt" --timeout=10);
+
+cd $base
+echo $pass | sudo -S ls /tmp > /dev/null 2>&1
+sudo dpkg -i *.deb
+mv *.deb Installed
+rm linux-upstream_6.0
+
+echo Signing kernel
+echo ${bldblu}${txtbld}Which version?${txtrst}
+read VERSION
+echo ${bldred}Sigining kernel
+cd ~/.keys
+
+sudo sbsign --key MOK.priv --cert MOK.pem /boot/vmlinuz-6.0.$VERSION-lz-xan1 --output /boot/vmlinuz-6.0.$VERSION-lz-xan1.signed
+
+sudo cp /boot/initrd.img-6.0.$VERSION-lz-xan1{,.signed}
+echo signed ${txtrst}
+
+sudo update-grub
+
+sudo mv /boot/vmlinuz-6.0.$VERSION-lz-xan1{.signed,}
+sudo mv /boot/initrd.img-6.0.$VERSION-lz-xan1{.signed,}
+sudo update-grub
+
+cd -
+
+# Return to kernel menu
+zenity --question --text "Anything else?"
+    kernel=$?
+    if [[ $kernel -eq 0 ]]; then
+        kernel
+    fi

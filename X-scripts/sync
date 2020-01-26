@@ -1,0 +1,11 @@
+#!/bin/bash
+
+git fetch xan 6.0
+git pull xan 6.0
+
+# Return to kernel menu
+zenity --question --text "Anything else?"
+    kernel=$?
+    if [[ $kernel -eq 0 ]]; then
+        kernel
+    fi

@@ -23,3 +23,10 @@ then
 mkdir ./configs && echo "${bldred}${txtbld}Created configs directory to store config file${txtrst}"
 fi
 cp .config configs/.config
+
+# Return to kernel menu
+zenity --question --text "Anything else?"
+    kernel=$?
+    if [[ $kernel -eq 0 ]]; then
+        kernel
+    fi

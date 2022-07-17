@@ -15,7 +15,7 @@ echo "${bldblu}${txtbld}Using $CONCURRENCY_LEVEL cores${txtrst}"
 
 # Compile it
 make oldconfig && make prepare
-time make deb-pkg -j $(nproc --all)
+time make CC="ccache gcc" deb-pkg -j $(nproc --all)
 
 # Saving the new build config
 if [ ! -d "configs" ];

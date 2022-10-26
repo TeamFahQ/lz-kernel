@@ -14,6 +14,7 @@ echo "${bldblu}${txtbld}Using $CONCURRENCY_LEVEL cores${txtrst}"
 
 # Compile it
 make clean && make mrproper
+cp configs/.config .config
 make oldconfig && make prepare
 time make CC="ccache gcc" deb-pkg -j $(nproc --all)
 
